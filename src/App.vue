@@ -2,26 +2,31 @@
   <div id="app">
     <p>
       Linkek:
-      <a href="kerites.txt" download>naplo.txt</a>
+      <a href="kerites.txt" download>kerites.txt</a>
       <a href="Kerites_fel.pdf" target="_blank">Feladat</a>
       <a href="Kerites_jav.pdf" target="_blank">Javítási</a>
       <a href="https://github.com/nitslaszlo/ErettsegiHianyzasokTsVueJs" target="_blank">Forrás</a>
       <a href="https://github.com/nitslaszlo/JedlikVueJsStarter" target="_blank">SDK</a>
     </p>
-    <txt-reader title="Kérem töltse fel a forrás (naplo.txt) állományt!" @load="txtSorai = $event"/>
+    <txt-reader title="Kérem töltse fel a forrás (Kerités.txt) állományt!" @load="txtSorai = $event"/>
     <div v-show="mutat" id="megoldás">
       
       <p> 2. feladat: <br> Az eladott Telkek Száma {{ telkek.length }}. </p>
+
+      <p> 3. feladat: <br> A {{telkek[telkek.length - 1].ezparos ? "páros" : "páratlan"}} oldalon van az utolsó ház. <br>
+       És ennek az épületnek a házszáma {{telkek[telkek.length - 1].hazszam}}. </p>
+
+       
      </div>
     <!-- Megoldás DIV -->
     <!-- Nem a feladat része : -->
-    <p v-show="mutat">
+    <!-- <p v-show="mutat">
       <b>kerites.txt fájl:</b>
     </p>
     <span v-for="(t, index) in txtSorai.split('\n')" :key="index">
       {{ t.trim() }}
       <br>
-    </span>
+    </span> -->
   </div>
 </template>
 
@@ -56,6 +61,10 @@ export default class App extends Vue {
       window.alert("Hibás forrás!");
     }
   }
+
+
+
+
 }
 </script>
 
