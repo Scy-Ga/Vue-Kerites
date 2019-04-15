@@ -1,14 +1,23 @@
 // Megjegyzések stílusa: JSDoc 3 -> http://usejsdoc.org/
 
-/** Egy hiányzó tanulót leíró osztály */
+/** Egy Telket leíró osztály */
 export default class Telek {
 
-  private static aktParosHazszam: number = 2;
-  private static aktParatlanHazszam: number = 1;
+  public static aktParosHazszam: number = 2;
+  public static aktParatlanHazszam: number = 1;
+
+  public static hazszamReset(): void {
+    Telek.aktParatlanHazszam = 1;
+    Telek.aktParosHazszam = 2;
+  }
+
+  public ezparos: boolean = false;
   private hazszam: number;
   private szelesseg: number;
   private szin: string;
-  private ezparos: boolean = false;
+
+
+
 
 
   /** Az osztály konstruktora
@@ -48,6 +57,30 @@ export default class Telek {
 
 
 
+  // 3. feladat
 
+  public get oldal(): string {
+    return this.hazszam % 2 === 0 ? "páros" : "páratlan";
+  }
+
+  public get hazSzama(): number {
+    return this.hazszam;
+  }
+
+  // 4. feladat
+
+  public get paratlanOldali(): boolean {
+    return this.hazszam % 2 === 1;
+  }
+
+  public get keritesSzine(): string {
+    return this.szin;
+  }
+
+  // 6. feladat
+
+  public get telekSzelessege(): number {
+    return this.szelesseg;
+  }
 
 }
