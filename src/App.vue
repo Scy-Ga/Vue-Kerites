@@ -36,24 +36,28 @@
       <p>
         5. feladat:
         <br>Adjon meg egy Házszámot!
-        <input v-model="hazszamInputStr" type="number" min="1" max="117"><br>
-
-        A kerítés Szine/Állapota: {{ keritesSzineAllapota }} <br>
+        <input v-model="hazszamInputStr" type="number" min="1" max="117">
+        <br>
+        A kerítés Szine/Állapota: {{ keritesSzineAllapota }}
+        <br>
         Egy lehetséges Festési szín: {{ lehetsegesFestesiSzin }}
-
       </p>
-
-
     </div>
     <!-- Megoldás DIV -->
     <!-- Nem a feladat része : -->
+
+    <!-- <p v-if="mutat">
+      <b>utcakep.txt fájl:</b>
+    </p>
+    <pre>
+    <span v-for="(t, index) in utcaKep.split('\n')" :key="index">
+      {{ t.trim() }}
+     </span>
+    </pre> -->
     <p v-if="mutat">
       <b>kerites.txt fájl:</b>
     </p>
-    <span v-for="(t, index) in txtSorai.split('\n')" :key="index">
-      {{ t.trim() }}
-      <br>
-    </span>
+    <pre>{{ utcaKep }}</pre>
   </div>
 </template>
 
@@ -70,6 +74,8 @@ export default class App extends Vue {
   private mutat: boolean = false;
   // 5. feladat
   private hazszamInputStr: string = "83";
+  // 6. feladat
+  private utcaKep: string = "";
 
   @Watch("txtSorai", { immediate: true, deep: true })
   private haForrásVáltozik(val: string, oldVal: string) {
@@ -83,6 +89,14 @@ export default class App extends Vue {
         const aktSor: string = i.trim();
         if (aktSor.length > 0) this.telkek.push(new Telek(aktSor));
       });
+      // 6. feladat: utcakép generálása
+      let sor1: string = "";
+      let sor2: string = "";
+      for (const i of this.telkek.filter(x => x.paratlanOldali)) {
+        sor1 += "".padEnd(i.telekSzelessege, i.keritesSzine);
+        sor2 += i.hazSzama.toString().padEnd(i.telekSzelessege, " ");
+      }
+      this.utcaKep = `${sor1}\n${sor2}\n`;
       this.mutat = true;
     } catch (error) {
       this.mutat = false;
@@ -127,30 +141,41 @@ export default class App extends Vue {
 
   private get lehetsegesFestesiSzin(): string {
     const hazszamInput: number = parseInt(this.hazszamInputStr, 10);
-    const keresettTelek: Telek[] = this.telkek.filter(x => x.hazSzama === hazszamInput);
-    const balszomszedTelek: Telek[] = this.telkek.filter(x => x.hazSzama === hazszamInput + 2);
-    const jobbszomszedTelek: Telek[] = this.telkek.filter(x => x.hazSzama === hazszamInput - 2);
+    const keresettTelek: Telek[] = this.telkek.filter(
+      x => x.hazSzama === hazszamInput
+    );
+    const balszomszedTelek: Telek[] = this.telkek.filter(
+      x => x.hazSzama === hazszamInput + 2
+    );
+    const jobbszomszedTelek: Telek[] = this.telkek.filter(
+      x => x.hazSzama === hazszamInput - 2
+    );
 
-    let lehetsegesSzinek: string[] = ["A" , "B" , "C" , "D"];
-    if (keresettTelek.length !== 0) { // van telek aminek a kerítését festeni kell
-        lehetsegesSzinek = lehetsegesSzinek.filter(x => x !== keresettTelek[0].keritesSzine);
+    let lehetsegesSzinek: string[] = ["A", "B", "C", "D"];
+    if (keresettTelek.length !== 0) {
+      // van telek aminek a kerítését festeni kell
+      lehetsegesSzinek = lehetsegesSzinek.filter(
+        x => x !== keresettTelek[0].keritesSzine
+      );
     } else return "Nincs ilyen Házszám";
 
     // ha van balszomszéd
-    if (balszomszedTelek.length !== 0) { // van telek aminek a kerítését festeni kell
-        lehetsegesSzinek = lehetsegesSzinek.filter(x => x !== balszomszedTelek[0].keritesSzine);
-
+    if (balszomszedTelek.length !== 0) {
+      // van telek aminek a kerítését festeni kell
+      lehetsegesSzinek = lehetsegesSzinek.filter(
+        x => x !== balszomszedTelek[0].keritesSzine
+      );
     }
 
-    if (jobbszomszedTelek.length !== 0) { // van telek aminek a kerítését festeni kell
-        lehetsegesSzinek = lehetsegesSzinek.filter(x => x !== jobbszomszedTelek[0].keritesSzine);
+    if (jobbszomszedTelek.length !== 0) {
+      // van telek aminek a kerítését festeni kell
+      lehetsegesSzinek = lehetsegesSzinek.filter(
+        x => x !== jobbszomszedTelek[0].keritesSzine
+      );
     }
 
     return lehetsegesSzinek[0];
-
   }
-
-
 }
 </script>
 
