@@ -32,9 +32,10 @@ export default class TxtReader extends Vue {
   position: relative;
   overflow: hidden;
   display: inline-block;
+  background-color: lightgrey;
 
   border: 2px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 8px 12px;
   cursor: pointer;
 }

@@ -43,21 +43,27 @@
         Egy lehetséges Festési szín: {{ lehetsegesFestesiSzin }}
       </p>
     </div>
+    <p v-if="mutat">
+      <br>
+      <txt-writer title="Utcakep.txt állomány mentése" :content="utcaKep" filename="utcakep.txt"/>
+    </p>
+
     <!-- Megoldás DIV -->
     <!-- Nem a feladat része : -->
 
-    <!-- <p v-if="mutat">
+    <p v-if="mutat">
       <b>utcakep.txt fájl:</b>
     </p>
-    <pre>
-    <span v-for="(t, index) in utcaKep.split('\n')" :key="index">
-      {{ t.trim() }}
-     </span>
-    </pre> -->
+
+    <pre>{{ utcaKep }}</pre>
+
     <p v-if="mutat">
       <b>kerites.txt fájl:</b>
     </p>
-    <pre>{{ utcaKep }}</pre>
+    <pre>{{ txtSorai }}</pre>
+    <!-- <span v-for="(t, index) in txtSorai.split('\n')" :key="index">
+      {{ t.trim() }}
+    </span>-->
   </div>
 </template>
 
@@ -65,9 +71,10 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Telek from "./telek";
 import TxtReader from "./components/TxtReader.vue";
+import TxtWriter from "./components/TxtWriter.vue";
 
 // eslint-disable-next-line
-@Component({ components: { TxtReader } })
+@Component({ components: { TxtReader, TxtWriter } })
 export default class App extends Vue {
   private telkek: Telek[] = [];
   private txtSorai: string = ""; // Watch végett nem lehet ékezetes azonosító! (pl.: forrás)!
@@ -185,9 +192,16 @@ export default class App extends Vue {
 }
 #megoldás {
   background-color: lightgrey;
+  border: 2px dotted black;
+  border-radius: 10px;
+  padding:12px;
+  max-width: 500px;
+  content: inherit;
 }
 a {
   text-decoration: none;
   padding-left: 10px;
 }
+
+
 </style>
