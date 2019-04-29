@@ -195,7 +195,7 @@ export default class App extends Vue {
   border: 2px dotted black;
   border-radius: 10px;
   padding:12px;
-  max-width: 500px;
+  max-width: 490px;
   content: inherit;
 }
 a {
